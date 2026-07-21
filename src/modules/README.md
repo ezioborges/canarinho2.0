@@ -1,15 +1,15 @@
-# Modulos de dominio
+# Módulos de domínio
 
-Cada diretorio e uma fronteira de negocio. O arquivo `index.ts` e a unica API que outro modulo ou
-uma rota pode importar. Importacoes profundas por alias sao bloqueadas no ESLint.
+Cada diretório é uma fronteira de negócio. O arquivo `index.ts` é a única API que outro módulo ou
+uma rota pode importar. Importações profundas por alias são bloqueadas no ESLint.
 
-Regras de dependencia:
+Regras de dependência:
 
-- `app` pode orquestrar modulos e usar `shared`;
-- um modulo pode usar `shared` e a API publica de outro modulo;
-- `shared` nao conhece modulos nem rotas;
-- modulos e `shared` nao importam arquivos de `app`;
-- regra de negocio permanece no modulo que a possui.
+- `app` pode orquestrar módulos e usar `shared`;
+- um módulo pode usar `shared` e a API pública de outro módulo;
+- `shared` não conhece módulos nem rotas;
+- módulos e `shared` não importam arquivos de `app`;
+- regra de negócio permanece no módulo que a possui.
 
 As camadas `domain`, `application`, `infrastructure`, `presentation`, `schemas` e `tests` devem ser
-criadas somente quando aparecer um caso de uso real. O ADR 0001 explica a decisao completa.
+criadas somente quando aparecer um caso de uso real. O ADR 0001 explica a decisão completa.
