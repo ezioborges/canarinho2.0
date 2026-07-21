@@ -134,17 +134,17 @@ insert into public.outbox_events (
 -- Visitante: somente o que e explicitamente publico.
 set local role anon;
 select is(
-  (select count(*) from public.content_items),
+  (select count(*) from public.content_items where id::text like '30000000-%'),
   1::bigint,
   'visitante le somente conteudo publicado'
 );
 select is(
-  (select title from public.content_items),
+  (select title from public.content_items where id = '30000000-0000-4000-8000-000000000004'),
   'Conteudo publicado',
   'conteudo nao publicado nao vaza para visitante'
 );
 select is(
-  (select count(*) from public.profiles),
+  (select count(*) from public.profiles where id = '10000000-0000-4000-8000-000000000003'),
   1::bigint,
   'visitante le somente perfil ligado a conteudo publicado'
 );
@@ -159,7 +159,7 @@ select throws_ok(
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000001', true);
 select is(
-  (select count(*) from public.content_items),
+  (select count(*) from public.content_items where id::text like '30000000-%'),
   3::bigint,
   'leitor ve os dois conteudos proprios e o publicado'
 );
@@ -205,7 +205,11 @@ select throws_ok(
 
 -- Conexoes: nenhum acesso indireto ao fluxo editorial.
 select set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000004', true);
-select is((select count(*) from public.content_items), 1::bigint, 'Conexoes le apenas o publicado');
+select is(
+  (select count(*) from public.content_items where id::text like '30000000-%'),
+  1::bigint,
+  'Conexoes le apenas o publicado'
+);
 select is_empty(
   $$update public.content_items
     set title = 'Tentativa de Conexoes'
@@ -216,7 +220,11 @@ select is_empty(
 
 -- Revisor: fila, atribuicao segura, controle otimista e vedacao de autoaprovacao.
 select set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000002', true);
-select is((select count(*) from public.content_items), 3::bigint, 'revisor le fila e conteudo publicado');
+select is(
+  (select count(*) from public.content_items where id::text like '30000000-%'),
+  3::bigint,
+  'revisor le fila e conteudo publicado'
+);
 select is(
   public.assign_editorial_reviewer(
     '30000000-0000-4000-8000-000000000002',

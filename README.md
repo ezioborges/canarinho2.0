@@ -53,8 +53,12 @@ pnpm db:test
   modelo, segurança e evidências da etapa 2;
 - [`docs/requirements/etapa-2-matriz-acesso.md`](docs/requirements/etapa-2-matriz-acesso.md): grants e
   RLS por papel e operação;
+- [`docs/requirements/etapa-3-portal-publico.md`](docs/requirements/etapa-3-portal-publico.md): home,
+  busca, conteúdo público, SEO, cache e evidências da etapa 3;
 - [`docs/adr/0001-monolito-modular.md`](docs/adr/0001-monolito-modular.md): limites e dependências
   da arquitetura;
+- [`docs/adr/0004-read-model-portal-publico.md`](docs/adr/0004-read-model-portal-publico.md): fronteira
+  pública, busca full-text, redirects e cache;
 - [`docs/runbooks/environments.md`](docs/runbooks/environments.md): separação e promoção de
   ambientes;
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): commits, branches, pull requests e qualidade;

@@ -1,0 +1,66 @@
+import Link from 'next/link';
+import type { ReactNode } from 'react';
+
+export function SiteHeader() {
+  return (
+    <>
+      <a className="skip-link" href="#conteudo-principal">
+        Pular para o conteúdo
+      </a>
+      <header className="site-header">
+        <div className="site-header__inner">
+          <Link className="brand" href="/" aria-label="Canarinho — página inicial">
+            <span className="brand__bird" aria-hidden="true">
+              c
+            </span>
+            <span>canarinho</span>
+          </Link>
+          <nav aria-label="Navegação principal">
+            <Link href="/materias">Matérias</Link>
+            <Link href="/categorias/cultura">Cultura</Link>
+            <Link href="/categorias/ciencia">Ciência</Link>
+            <Link href="/edicoes/entre-lugares-01">Edições</Link>
+          </nav>
+          <form className="header-search" action="/busca" role="search">
+            <label className="sr-only" htmlFor="header-search-query">
+              Buscar no Canarinho
+            </label>
+            <input id="header-search-query" name="q" type="search" placeholder="Buscar" />
+            <button type="submit" aria-label="Buscar">
+              ↗
+            </button>
+          </form>
+        </div>
+      </header>
+    </>
+  );
+}
+
+export function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <div>
+        <Link className="brand brand--footer" href="/">
+          canarinho
+        </Link>
+        <p>Jornalismo, arte e ideias produzidas com a comunidade universitária.</p>
+      </div>
+      <nav aria-label="Navegação do rodapé">
+        <Link href="/materias">Todas as matérias</Link>
+        <Link href="/busca">Busca</Link>
+        <a href="mailto:contato@canarinho.test">Contato</a>
+      </nav>
+      <p className="site-footer__legal">© 2026 Canarinho. Conteúdo editorial de demonstração.</p>
+    </footer>
+  );
+}
+
+export function PublicShell({ children }: { children: ReactNode }) {
+  return (
+    <>
+      <SiteHeader />
+      {children}
+      <SiteFooter />
+    </>
+  );
+}

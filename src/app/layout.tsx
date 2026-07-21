@@ -1,14 +1,33 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
+import { publicEnvironment } from '@/shared/config/public-environment';
+
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(publicEnvironment.NEXT_PUBLIC_SITE_URL),
   title: {
-    default: 'Canarinho 2.0',
-    template: '%s | Canarinho 2.0',
+    default: 'Canarinho — histórias que circulam',
+    template: '%s | Canarinho',
   },
-  description: 'Portal editorial do Canarinho.',
+  description: 'Jornalismo, arte e ideias produzidas com a comunidade universitária.',
+  applicationName: 'Canarinho',
+  authors: [{ name: 'Canarinho' }],
+  creator: 'Canarinho',
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    siteName: 'Canarinho',
+    title: 'Canarinho — histórias que circulam',
+    description: 'Jornalismo, arte e ideias produzidas com a comunidade universitária.',
+    url: '/',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Canarinho — histórias que circulam',
+    description: 'Jornalismo, arte e ideias produzidas com a comunidade universitária.',
+  },
 };
 
 type RootLayoutProperties = Readonly<{
