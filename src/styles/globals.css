@@ -1,0 +1,160 @@
+:root {
+  color-scheme: light;
+  --ink: #172016;
+  --muted: #596457;
+  --paper: #f7f6ef;
+  --surface: #fffdf3;
+  --line: #d8dccb;
+  --green: #14532d;
+  --yellow: #f2c94c;
+  --radius: 1.25rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 8%, rgb(242 201 76 / 22%), transparent 24rem), var(--paper);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+  width: min(70rem, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: clamp(3rem, 8vw, 7rem) 0;
+}
+
+.hero {
+  max-width: 54rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  text-wrap: balance;
+}
+
+h1 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.6rem, 7vw, 5.8rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+h2 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.summary {
+  max-width: 43rem;
+  margin: 2rem 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.65;
+}
+
+.runtime {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.runtime div {
+  min-width: 8rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgb(255 253 243 / 78%);
+}
+
+.runtime dt,
+.runtime dd {
+  display: inline;
+  margin: 0;
+}
+
+.runtime dt {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.runtime dt::after {
+  content: ': ';
+}
+
+.runtime dd {
+  font-weight: 750;
+}
+
+.modules {
+  display: grid;
+  grid-template-columns: minmax(13rem, 0.65fr) minmax(0, 1.35fr);
+  gap: clamp(2rem, 7vw, 7rem);
+  margin-top: clamp(4rem, 10vw, 9rem);
+}
+
+.modules ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.modules li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  background: var(--surface);
+}
+
+.modules li span {
+  font-weight: 700;
+}
+
+code {
+  color: var(--green);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 42rem) {
+  .modules {
+    grid-template-columns: 1fr;
+  }
+
+  .modules li {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .runtime {
+    flex-wrap: wrap;
+  }
+}

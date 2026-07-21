@@ -1,0 +1,35 @@
+# Dependencias
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Testes e cobertura
+coverage/
+playwright-report/
+test-results/
+
+# Variaveis locais (o exemplo deve ser versionado)
+.env
+.env.*
+!.env.example
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/
+
+# Editores e sistema operacional
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs
+*.log
+pnpm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
