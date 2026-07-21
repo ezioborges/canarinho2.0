@@ -97,6 +97,17 @@ select assignments.user_id, assignments.role_code
 from assignments
 on conflict (user_id, role_code) do nothing;
 
+-- O trigger concede Leitor a contas novas; as personas especializadas mantem um unico papel
+-- para que os testes de matriz continuem isolando cada perfil. Multiplicidade e exercitada no pgTAP.
+delete from public.user_roles
+where role_code = 'leitor'
+  and user_id in (
+    '10000000-0000-4000-8000-000000000002',
+    '10000000-0000-4000-8000-000000000003',
+    '10000000-0000-4000-8000-000000000004',
+    '10000000-0000-4000-8000-000000000005'
+  );
+
 -- Fatia publica da Etapa 3: conteudo editorial ficticio, mas completo e navegavel.
 update public.profiles
 set display_name = case id

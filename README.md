@@ -55,10 +55,14 @@ pnpm db:test
   RLS por papel e operação;
 - [`docs/requirements/etapa-3-portal-publico.md`](docs/requirements/etapa-3-portal-publico.md): home,
   busca, conteúdo público, SEO, cache e evidências da etapa 3;
+- [`docs/requirements/etapa-4-autenticacao-conta-submissao.md`](docs/requirements/etapa-4-autenticacao-conta-submissao.md):
+  autenticação, conta, autosave, upload privado e submissão transacional;
 - [`docs/adr/0001-monolito-modular.md`](docs/adr/0001-monolito-modular.md): limites e dependências
   da arquitetura;
 - [`docs/adr/0004-read-model-portal-publico.md`](docs/adr/0004-read-model-portal-publico.md): fronteira
   pública, busca full-text, redirects e cache;
+- [`docs/adr/0005-sessao-autosave-e-submissao.md`](docs/adr/0005-sessao-autosave-e-submissao.md):
+  sessão no servidor, autosave idempotente, termos e arquivos privados;
 - [`docs/runbooks/environments.md`](docs/runbooks/environments.md): separação e promoção de
   ambientes;
 - [`CONTRIBUTING.md`](CONTRIBUTING.md): commits, branches, pull requests e qualidade;

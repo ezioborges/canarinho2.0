@@ -4,8 +4,12 @@ import nextTypeScript from 'eslint-config-next/typescript';
 import { flatConfigs as importXFlatConfigs } from 'eslint-plugin-import-x';
 
 const restrictedDeepImport = {
-  group: ['@/modules/*/*', '@/modules/**/!(index)'],
-  message: 'Outro modulo deve ser consumido somente por sua API publica: @/modules/<modulo>.',
+  group: [
+    '@/modules/*/!(index|client|server|contracts)',
+    '@/modules/**/!(index|client|server|contracts)',
+  ],
+  message:
+    'Outro modulo deve ser consumido somente por uma API publica: index, client, server ou contracts.',
 };
 
 export default defineConfig([

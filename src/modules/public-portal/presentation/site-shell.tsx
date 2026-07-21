@@ -20,6 +20,7 @@ export function SiteHeader() {
             <Link href="/categorias/cultura">Cultura</Link>
             <Link href="/categorias/ciencia">Ciência</Link>
             <Link href="/edicoes/entre-lugares-01">Edições</Link>
+            <Link href="/submissoes">Enviar matéria</Link>
           </nav>
           <form className="header-search" action="/busca" role="search">
             <label className="sr-only" htmlFor="header-search-query">
@@ -48,6 +49,7 @@ export function SiteFooter() {
       <nav aria-label="Navegação do rodapé">
         <Link href="/materias">Todas as matérias</Link>
         <Link href="/busca">Busca</Link>
+        <Link href="/submissoes">Minhas submissões</Link>
         <a href="mailto:contato@canarinho.test">Contato</a>
       </nav>
       <p className="site-footer__legal">© 2026 Canarinho. Conteúdo editorial de demonstração.</p>

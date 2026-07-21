@@ -89,25 +89,25 @@ insert into public.content_items (
 values
   (
     '30000000-0000-4000-8000-000000000001', 'rascunho-leitor', 'news',
-    'Rascunho do leitor', '{"type":"doc","content":[{"type":"paragraph"}]}'::jsonb,
+    'Rascunho do leitor', '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Texto do rascunho"}]}]}'::jsonb,
     'draft', 'public', '10000000-0000-4000-8000-000000000001',
     '2026-01', statement_timestamp(), null, null, null, null, null
   ),
   (
     '30000000-0000-4000-8000-000000000002', 'submissao-leitor', 'essay',
-    'Submissao do leitor', '{"type":"doc","content":[{"type":"paragraph"}]}'::jsonb,
+    'Submissao do leitor', '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Texto da submissao"}]}]}'::jsonb,
     'submitted', 'public', '10000000-0000-4000-8000-000000000001',
     '2026-01', statement_timestamp(), statement_timestamp(), null, null, null, null
   ),
   (
     '30000000-0000-4000-8000-000000000003', 'submissao-revisor', 'column',
-    'Submissao do revisor', '{"type":"doc","content":[{"type":"paragraph"}]}'::jsonb,
+    'Submissao do revisor', '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Texto para revisar"}]}]}'::jsonb,
     'submitted', 'public', '10000000-0000-4000-8000-000000000002',
     '2026-01', statement_timestamp(), statement_timestamp(), null, null, null, null
   ),
   (
     '30000000-0000-4000-8000-000000000004', 'conteudo-publicado', 'poem',
-    'Conteudo publicado', '{"type":"doc","content":[{"type":"paragraph"}]}'::jsonb,
+    'Conteudo publicado', '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Texto publicado"}]}]}'::jsonb,
     'published', 'public', '10000000-0000-4000-8000-000000000003',
     '2026-01', statement_timestamp(), statement_timestamp(), statement_timestamp(),
     statement_timestamp(), 'Conteudo publicado', 'Descricao publica do conteudo'

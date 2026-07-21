@@ -39,7 +39,8 @@ img {
 }
 button,
 input,
-select {
+select,
+textarea {
   color: inherit;
   font: inherit;
 }
@@ -209,6 +210,393 @@ h3 {
 .button:hover {
   color: var(--ink);
   background: var(--yellow);
+}
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.button--primary {
+  color: var(--surface);
+  background: var(--green);
+}
+.button--secondary {
+  color: var(--ink);
+  background: transparent;
+}
+.button--text {
+  min-height: auto;
+  padding: 0.25rem;
+  border: 0;
+  border-radius: 0;
+  color: var(--ink);
+  background: transparent;
+  text-decoration: underline;
+}
+
+/* Conta, autenticacao e submissao — Etapa 4. */
+.auth-page,
+.account-page,
+.editor-page {
+  min-height: 65vh;
+  padding: clamp(2.5rem, 6vw, 6rem) 0;
+}
+.auth-page {
+  display: grid;
+  place-items: start center;
+}
+.auth-card,
+.account-card,
+.empty-state,
+.history-panel,
+.upload-panel,
+.terms-panel {
+  padding: clamp(1.4rem, 4vw, 2.5rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 1rem 3rem rgb(16 39 31 / 6%);
+}
+.auth-card {
+  width: min(31rem, 100%);
+}
+.auth-card h1,
+.page-heading h1 {
+  margin: 0 0 0.8rem;
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  line-height: 0.96;
+}
+.auth-card > p:not(.eyebrow, .form-message),
+.page-heading > p,
+.page-heading > div > p:last-child {
+  color: var(--muted);
+}
+.stack-form,
+.submission-form,
+.upload-form {
+  display: grid;
+  gap: 1.25rem;
+}
+.stack-form {
+  margin-top: 2rem;
+}
+.stack-form label,
+.submission-form label,
+.upload-form label,
+.field-label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.83rem;
+  font-weight: 800;
+}
+.stack-form input,
+.submission-form input,
+.submission-form select,
+.submission-form textarea,
+.upload-form input {
+  width: 100%;
+  padding: 0.78rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  background: white;
+  font-weight: 400;
+}
+.stack-form input:focus,
+.submission-form input:focus,
+.submission-form select:focus,
+.submission-form textarea:focus,
+.upload-form input:focus {
+  border-color: var(--green);
+}
+.stack-form small,
+.submission-form small {
+  color: var(--muted);
+  font-weight: 400;
+}
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.4rem;
+  font-size: 0.88rem;
+}
+.form-message {
+  padding: 0.8rem 1rem;
+  border-radius: 0.55rem;
+  font-weight: 700;
+}
+.form-message--error {
+  color: #6f251c;
+  background: #f6d8ce;
+}
+.form-message--success {
+  color: var(--ink-deep);
+  background: var(--green-light);
+}
+.account-nav {
+  width: var(--page);
+  margin: 1rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  background: var(--green-light);
+  font-size: 0.83rem;
+  font-weight: 800;
+}
+.account-nav nav {
+  display: flex;
+  gap: 1.5rem;
+}
+.page-heading {
+  max-width: 54rem;
+  margin-bottom: 3rem;
+}
+.page-heading--actions {
+  max-width: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.account-card {
+  max-width: 42rem;
+}
+.submission-list {
+  display: grid;
+  gap: 1rem;
+}
+.submission-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem;
+  border-top: 1px solid var(--ink);
+  background: rgb(255 253 246 / 60%);
+}
+.submission-card h2 {
+  margin: 0.3rem 0;
+  font-size: clamp(1.45rem, 3vw, 2.3rem);
+}
+.submission-card p {
+  margin: 0;
+  color: var(--muted);
+}
+.submission-card__meta {
+  color: var(--green) !important;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.status-pill {
+  display: inline-flex;
+  width: fit-content;
+  padding: 0.38rem 0.72rem;
+  border-radius: 999px;
+  background: var(--yellow-light);
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.status-pill--published,
+.status-pill--approved {
+  background: var(--green-light);
+}
+.status-pill--rejected,
+.status-pill--changes_requested {
+  background: #f6d8ce;
+}
+.empty-state {
+  max-width: 48rem;
+  text-align: center;
+}
+.empty-state h2,
+.history-panel h2,
+.upload-panel h2,
+.terms-panel h2 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.6rem, 4vw, 2.7rem);
+}
+.submission-editor {
+  display: grid;
+  gap: 1.5rem;
+}
+.submission-editor__status {
+  position: sticky;
+  z-index: 5;
+  top: 0.75rem;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: 0 0.4rem 1rem rgb(16 39 31 / 8%);
+}
+.status-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--line);
+}
+.status-dot--pending,
+.status-dot--saving {
+  background: var(--yellow);
+}
+.status-dot--saved {
+  background: var(--green);
+}
+.status-dot--local,
+.status-dot--error {
+  background: var(--orange);
+}
+.submission-form fieldset {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0;
+  padding: clamp(1.2rem, 4vw, 2.2rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.submission-form legend {
+  padding: 0 0.7rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+.form-grid {
+  display: grid;
+  gap: 1.2rem;
+}
+.form-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.rich-editor {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: white;
+}
+.rich-editor__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  padding: 0.55rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.rich-editor__toolbar button {
+  padding: 0.35rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.77rem;
+  font-weight: 700;
+}
+.rich-editor__toolbar button[aria-pressed='true'] {
+  border-color: var(--green);
+  background: var(--green-light);
+}
+.rich-editor__content {
+  min-height: 20rem;
+  padding: 1.4rem;
+  outline: 0;
+}
+.rich-editor__content h2 {
+  font-size: 2rem;
+}
+.author-list,
+.author-row {
+  display: grid;
+  gap: 0.8rem;
+}
+.author-row {
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+.check-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.check-label {
+  display: inline-flex !important;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  width: fit-content;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+}
+.check-label input {
+  width: auto;
+  margin: 0;
+}
+.check-label--terms {
+  margin: 1.5rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.submission-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.upload-panel,
+.terms-panel,
+.history-panel {
+  margin-top: 1rem;
+}
+.upload-panel ul {
+  padding-left: 1.2rem;
+}
+.upload-form {
+  grid-template-columns: 1fr 1fr auto;
+  align-items: end;
+  margin-top: 1.4rem;
+}
+.empty-inline {
+  color: var(--muted);
+  font-style: italic;
+}
+.timeline {
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.timeline li {
+  position: relative;
+  padding: 0 0 2rem 2rem;
+  border-left: 2px solid var(--green-light);
+}
+.timeline li::before {
+  position: absolute;
+  top: 0.2rem;
+  left: -0.45rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--green);
+  content: '';
+}
+.timeline time {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.timeline p {
+  margin-bottom: 0;
 }
 
 .section-label {
@@ -907,5 +1295,25 @@ h3 {
   }
   .status-page__actions {
     flex-direction: column;
+  }
+  .account-nav,
+  .page-heading--actions,
+  .submission-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .account-nav {
+    border-radius: 0.8rem;
+  }
+  .form-grid--two,
+  .upload-form {
+    grid-template-columns: 1fr;
+  }
+  .auth-links {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .rich-editor__content {
+    min-height: 15rem;
   }
 }
