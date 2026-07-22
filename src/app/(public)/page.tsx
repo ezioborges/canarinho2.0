@@ -1,41 +1,131 @@
-import { moduleCatalog } from '@/modules';
-import { publicEnvironment } from '@/shared/config/public-environment';
+import Link from 'next/link';
 
-export default function FoundationPage() {
+import { ContentCard, getPublicHomepage } from '@/modules/public-portal';
+
+export const revalidate = 300;
+
+export default async function HomePage() {
+  const homepage = await getPublicHomepage();
+  const hero = homepage.hero;
+
   return (
-    <main>
-      <section className="hero" aria-labelledby="foundation-title">
-        <p className="eyebrow">Canarinho 2.0</p>
-        <h1 id="foundation-title">Fundacao pronta para evoluir por dominio.</h1>
-        <p className="summary">
-          A aplicacao Next.js, a configuracao tipada e as fronteiras do monolito modular estao
-          ativas. O proximo incremento pode partir desta base reproduzivel.
-        </p>
-        <dl className="runtime">
-          <div>
-            <dt>Ambiente</dt>
-            <dd>{publicEnvironment.NEXT_PUBLIC_APP_ENV}</dd>
+    <main id="conteudo-principal">
+      {hero ? (
+        <section className="home-hero" aria-labelledby="home-hero-title">
+          <div className="section-label">
+            <span>Edição em movimento</span>
+            <span>01 / 2026</span>
           </div>
+          <ContentCard content={hero} variant="feature" imagePriority />
+        </section>
+      ) : (
+        <section className="home-hero empty-state" aria-labelledby="home-hero-title">
+          <h1 id="home-hero-title">A próxima história começa aqui.</h1>
+          <p>Assim que a primeira matéria for publicada, ela aparecerá neste espaço.</p>
+        </section>
+      )}
+
+      <section className="home-section" aria-labelledby="featured-title">
+        <div className="section-heading">
           <div>
-            <dt>Modulos</dt>
-            <dd>{moduleCatalog.length}</dd>
+            <p className="eyebrow">Seleção editorial</p>
+            <h2 id="featured-title">Para começar por aqui</h2>
           </div>
-        </dl>
+          <Link href="/materias">
+            Ver todas as matérias <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+        <div className="feature-grid">
+          {homepage.featured.map((content) => (
+            <ContentCard key={content.id} content={content} />
+          ))}
+        </div>
       </section>
 
-      <section className="modules" aria-labelledby="modules-title">
-        <div>
-          <p className="eyebrow">Arquitetura</p>
-          <h2 id="modules-title">Fronteiras iniciais</h2>
+      <section className="home-section home-section--ink" aria-labelledby="weekly-title">
+        <div className="section-heading section-heading--light">
+          <div>
+            <p className="eyebrow">Ideias em circulação</p>
+            <h2 id="weekly-title">Artigos da semana</h2>
+          </div>
+          <Link href="/materias?tipo=weekly_article">
+            Explorar artigos <span aria-hidden="true">→</span>
+          </Link>
         </div>
-        <ul>
-          {moduleCatalog.map((module) => (
-            <li key={module.id}>
-              <span>{module.label}</span>
-              <code>{module.id}</code>
-            </li>
+        <div className="weekly-list">
+          {homepage.weekly.map((content, index) => (
+            <div className="weekly-list__item" key={content.id}>
+              <span aria-hidden="true">0{index + 1}</span>
+              <ContentCard content={content} variant="compact" />
+            </div>
           ))}
-        </ul>
+        </div>
+      </section>
+
+      <section className="home-section" aria-labelledby="poems-title">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Literatura</p>
+            <h2 id="poems-title">Palavras para guardar</h2>
+          </div>
+          <Link href="/materias?tipo=poem">
+            Ler mais poemas <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+        <div className="literary-grid">
+          {homepage.poems.map((content) => (
+            <ContentCard key={content.id} content={content} />
+          ))}
+        </div>
+      </section>
+
+      {homepage.gallery.length > 0 && (
+        <section className="home-section" aria-labelledby="gallery-title">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Galeria</p>
+              <h2 id="gallery-title">Olhares da comunidade</h2>
+            </div>
+            <Link href="/materias?tipo=artwork">
+              Abrir galeria <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <div className="gallery-grid">
+            {homepage.gallery.map((content) => (
+              <ContentCard key={content.id} content={content} variant="gallery" />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="edition-newsletter" aria-label="Edições e newsletter">
+        <div className="edition-callout">
+          <p className="eyebrow">Edição atual</p>
+          {homepage.editions[0] ? (
+            <>
+              <p className="edition-number">
+                #{String(homepage.editions[0].issueNumber ?? 1).padStart(2, '0')}
+              </p>
+              <h2>{homepage.editions[0].title}</h2>
+              <p>{homepage.editions[0].summary}</p>
+              <Link href={`/edicoes/${homepage.editions[0].slug}`}>Conhecer esta edição →</Link>
+            </>
+          ) : (
+            <p>A primeira edição está sendo preparada.</p>
+          )}
+        </div>
+        <div className="newsletter-callout">
+          <p className="eyebrow">Carta do Canarinho</p>
+          <h2>Histórias novas, sem barulho.</h2>
+          <p>Receba uma mensagem quando uma nova edição pousar por aqui.</p>
+          <a
+            className="button"
+            href="mailto:contato@canarinho.test?subject=Quero%20receber%20a%20Carta%20do%20Canarinho"
+          >
+            Quero receber novidades
+          </a>
+          <small>A inscrição automatizada chega na etapa de comunicações.</small>
+        </div>
       </section>
     </main>
   );

@@ -1,4 +1,4 @@
-# Codigo compartilhado entre Edge Functions
+# Código compartilhado entre Edge Functions
 
-Somente utilitarios de infraestrutura das Edge Functions pertencem aqui. Segredos sao fornecidos
-pelo ambiente do Supabase e nunca sao copiados para `NEXT_PUBLIC_*`.
+Somente utilitários de infraestrutura das Edge Functions pertencem aqui. Segredos são fornecidos
+pelo ambiente do Supabase e nunca são copiados para `NEXT_PUBLIC_*`.
