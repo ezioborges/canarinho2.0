@@ -3,6 +3,9 @@ export const identityAccessModule = {
   label: 'Identidade e acesso',
 } as const;
 
+export { getAuthenticatedSession } from './infrastructure/session.repository';
+export type { AppRole, AuthenticatedSession } from './infrastructure/session.repository';
+
 export {
   requestPasswordReset,
   signIn,

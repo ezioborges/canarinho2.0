@@ -30,5 +30,5 @@
     "**/*.ts",
     "**/*.tsx"
   ],
-  "exclude": ["node_modules", "aula-lockfile", "canarinho-aula-monorepo"]
+  "exclude": ["node_modules", "aula-lockfile", "canarinho-aula-monorepo", "supabase/functions"]
 }

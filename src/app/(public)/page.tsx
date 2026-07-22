@@ -1,11 +1,16 @@
 import Link from 'next/link';
 
+import { NewsletterForm } from '@/modules/communications';
 import { ContentCard, getPublicHomepage } from '@/modules/public-portal';
 
 export const revalidate = 300;
 
-export default async function HomePage() {
-  const homepage = await getPublicHomepage();
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const [homepage, query] = await Promise.all([getPublicHomepage(), searchParams]);
   const hero = homepage.hero;
 
   return (
@@ -118,13 +123,12 @@ export default async function HomePage() {
           <p className="eyebrow">Carta do Canarinho</p>
           <h2>Histórias novas, sem barulho.</h2>
           <p>Receba uma mensagem quando uma nova edição pousar por aqui.</p>
-          <a
-            className="button"
-            href="mailto:contato@canarinho.test?subject=Quero%20receber%20a%20Carta%20do%20Canarinho"
-          >
-            Quero receber novidades
-          </a>
-          <small>A inscrição automatizada chega na etapa de comunicações.</small>
+          {query.newsletter ? (
+            <p className="form-message" role="status">
+              {Array.isArray(query.newsletter) ? query.newsletter[0] : query.newsletter}
+            </p>
+          ) : null}
+          <NewsletterForm />
         </div>
       </section>
     </main>

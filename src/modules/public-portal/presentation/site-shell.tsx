@@ -19,6 +19,7 @@ export function SiteHeader() {
             <Link href="/materias">Matérias</Link>
             <Link href="/poemas">Poemas</Link>
             <Link href="/galeria">Galeria</Link>
+            <Link href="/informes">Informes</Link>
             <Link href="/equipe">Equipe</Link>
             <Link href="/submissoes">Enviar matéria</Link>
           </nav>
@@ -50,6 +51,7 @@ export function SiteFooter() {
         <Link href="/materias">Todas as matérias</Link>
         <Link href="/busca">Busca</Link>
         <Link href="/equipe">Equipe</Link>
+        <Link href="/informes">Informes</Link>
         <Link href="/faca-parte">Faça parte</Link>
         <Link href="/submissoes">Minhas submissões</Link>
         <a href="mailto:contato@canarinho.test">Contato</a>

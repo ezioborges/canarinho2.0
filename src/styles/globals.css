@@ -15,6 +15,155 @@
   --page: min(76rem, calc(100% - 2.5rem));
 }
 
+/* Informes, notificacoes e newsletter — Etapa 7. */
+.notices-page,
+.notice-detail-page {
+  width: var(--page);
+  min-height: 65vh;
+  margin: auto;
+  padding: clamp(3rem, 7vw, 7rem) 0;
+}
+.notice-grid,
+.communications-grid,
+.notification-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+.notice-card,
+.notice-detail,
+.newsletter-panel {
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.notice-card--pinned {
+  border-top: 0.45rem solid var(--yellow);
+}
+.notice-card > div,
+.command-row,
+.export-list li,
+.notification-list article > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.notice-card__audience,
+.notice-card time,
+.notice-detail time,
+.notification-list time {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+.newsletter-panel {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  margin-top: 4rem;
+  background: var(--yellow-light);
+}
+.newsletter-form,
+.communications-form,
+.command-row > form {
+  display: grid;
+  gap: 0.9rem;
+}
+.newsletter-form label:not(.checkbox-field),
+.communications-form label,
+.command-row label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 700;
+}
+.newsletter-form input[type='email'],
+.communications-form input:not([type='checkbox']),
+.communications-form select,
+.communications-form textarea,
+.command-row input {
+  width: 100%;
+}
+.communications-form textarea {
+  min-height: 7rem;
+}
+.notice-detail {
+  width: min(55rem, 100%);
+  margin: auto;
+}
+.notice-detail__body {
+  padding-top: 2rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+.notice-detail-page .comments-section {
+  width: min(55rem, 100%);
+  margin: 4rem auto 0;
+}
+.communications-grid {
+  margin: 1.5rem 0;
+}
+.command-row {
+  align-items: end;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.command-row > form {
+  min-width: min(15rem, 100%);
+  flex: 1;
+}
+.subscriber-table {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.subscriber-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.subscriber-table th,
+.subscriber-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+.subscriber-table form {
+  display: flex;
+  gap: 0.5rem;
+}
+.export-list {
+  padding: 0;
+  list-style: none;
+}
+.export-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.notification--unread {
+  border-left: 0.4rem solid var(--yellow);
+}
+
+@media (max-width: 52rem) {
+  .notice-grid,
+  .communications-grid,
+  .notification-list,
+  .newsletter-panel {
+    grid-template-columns: 1fr;
+  }
+  .notice-card > div,
+  .command-row,
+  .export-list li,
+  .notification-list article > div,
+  .subscriber-table form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 /* Comunidade, equipe e recrutamento — Etapa 6. */
 .comments-section,
 .organization-page,

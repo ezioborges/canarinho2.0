@@ -352,3 +352,56 @@ values (
   '2026-07-22 09:00:00-03', '2026-12-01 23:59:59-03',
   '10000000-0000-4000-8000-000000000005'
 );
+
+-- Comunicacao ficticia para a fatia navegavel da Etapa 7.
+insert into public.communication_notices (
+  id, title, slug, summary, body, audience, status, comments_enabled, pinned,
+  published_at, expires_at, created_by, updated_by
+)
+values (
+  '71000000-0000-4000-8000-000000000001',
+  'Feira de coletivos ocupa o varandao',
+  'feira-de-coletivos-no-varandao',
+  'Encontro aberto apresenta projetos estudantis e recebe novas pessoas interessadas.',
+  'Na proxima sexta-feira, coletivos de extensao, cultura e acolhimento ocupam o varandao do centro de convivencia. A programacao comeca as 14h, tem entrada livre e nao exige inscricao previa.',
+  'general', 'published', true, true,
+  '2026-07-22 09:00:00-03', '2026-12-20 23:59:59-03',
+  '10000000-0000-4000-8000-000000000004',
+  '10000000-0000-4000-8000-000000000004'
+);
+
+insert into public.communication_notices (
+  id, title, slug, summary, body, audience, status, comments_enabled, pinned,
+  created_by, updated_by
+)
+values (
+  '71000000-0000-4000-8000-000000000002',
+  'Informe ainda em preparacao', 'informe-em-preparacao',
+  'Este informe privado existe para validar os limites de acesso do modulo.',
+  'Somente Conexoes e Direcao podem visualizar este texto enquanto ele permanece como rascunho.',
+  'team', 'draft', false, false,
+  '10000000-0000-4000-8000-000000000004',
+  '10000000-0000-4000-8000-000000000004'
+);
+
+insert into public.newsletter_subscribers (
+  id, email, status, segment, consent_version, consented_at, consent_source, confirmed_at
+)
+values (
+  '72000000-0000-4000-8000-000000000001',
+  'leitora.newsletter@example.com', 'active', 'all', 'newsletter-2026-01',
+  '2026-07-22 10:00:00-03', 'seed-local', '2026-07-22 10:05:00-03'
+);
+
+insert into public.newsletter_campaigns (
+  id, name, subject, preview_text, body_text, segment, status, created_by, updated_by
+)
+values (
+  '73000000-0000-4000-8000-000000000001',
+  'Carta de julho', 'O que pousou no Canarinho em julho',
+  'Historias, encontros e uma nova edicao para ler com calma.',
+  'Nesta carta, reunimos as historias mais recentes e os proximos encontros da comunidade.',
+  'all', 'draft',
+  '10000000-0000-4000-8000-000000000004',
+  '10000000-0000-4000-8000-000000000004'
+);
