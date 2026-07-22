@@ -9,6 +9,7 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
   const session = await getEditorialSession('/admin');
   const canReview = session.roles.some((role) => role === 'revisor' || role === 'diretor');
   const canEdit = session.roles.some((role) => role === 'editor' || role === 'diretor');
+  const isDirector = session.roles.includes('diretor');
 
   return (
     <PublicShell>
@@ -16,6 +17,8 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
         <nav aria-label="Operação editorial">
           {canReview ? <Link href="/admin/revisao">Fila de revisão</Link> : null}
           {canEdit ? <Link href="/admin/editorial">Edição e publicação</Link> : null}
+          {canEdit ? <Link href="/admin/comunidade">Comunidade</Link> : null}
+          {isDirector ? <Link href="/admin/organizacao">Equipe e seleção</Link> : null}
         </nav>
         <div className="admin-nav__identity">
           <span>{session.displayName}</span>

@@ -10,6 +10,7 @@ export default function AccountLayout({ children }: Readonly<{ children: ReactNo
       <div className="account-nav">
         <nav aria-label="Área da conta">
           <Link href="/submissoes">Minhas submissões</Link>
+          <Link href="/favoritos">Favoritos</Link>
           <Link href="/conta">Meu perfil</Link>
         </nav>
         <form action={signOut}>

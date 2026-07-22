@@ -24,6 +24,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   addEntry('/', { changeFrequency: 'daily', priority: 1 });
   addEntry('/materias', { changeFrequency: 'daily', priority: 0.9 });
+  addEntry('/poemas', { changeFrequency: 'weekly', priority: 0.7 });
+  addEntry('/galeria', { changeFrequency: 'weekly', priority: 0.7 });
+  addEntry('/equipe', { changeFrequency: 'monthly', priority: 0.6 });
+  addEntry('/faca-parte', { changeFrequency: 'weekly', priority: 0.6 });
 
   for (const content of contents) {
     addEntry(`/materias/${content.slug}`, {

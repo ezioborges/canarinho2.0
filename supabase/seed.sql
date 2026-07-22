@@ -319,3 +319,36 @@ values
   ('31000000-0000-4000-8000-000000000103', 'featured', 2, '10000000-0000-4000-8000-000000000003'),
   ('31000000-0000-4000-8000-000000000104', 'featured', 3, '10000000-0000-4000-8000-000000000003'),
   ('31000000-0000-4000-8000-000000000105', 'gallery', 1, '10000000-0000-4000-8000-000000000003');
+
+-- Equipe e recrutamento ficticios para a fatia navegavel da Etapa 6.
+insert into public.team_areas (id, name, slug, description, position)
+values
+  ('61000000-0000-4000-8000-000000000001', 'Direcao', 'direcao', 'Coordenacao institucional e editorial.', 1),
+  ('61000000-0000-4000-8000-000000000002', 'Edicao', 'edicao', 'Preparacao e publicacao das historias.', 2),
+  ('61000000-0000-4000-8000-000000000003', 'Revisao', 'revisao', 'Leitura critica e acompanhamento de autores.', 3),
+  ('61000000-0000-4000-8000-000000000004', 'Conexoes', 'conexoes', 'Comunidade, parcerias e circulacao.', 4);
+
+insert into public.team_members (
+  id, area_id, profile_id, display_name, role_title, bio, public_contact, position
+)
+values
+  ('62000000-0000-4000-8000-000000000001', '61000000-0000-4000-8000-000000000001', '10000000-0000-4000-8000-000000000005', 'Caio Ribeiro', 'Diretor', 'Coordena o projeto e acompanha a estrategia editorial.', 'contato@canarinho.test', 1),
+  ('62000000-0000-4000-8000-000000000002', '61000000-0000-4000-8000-000000000002', '10000000-0000-4000-8000-000000000003', 'Marina Campos', 'Editora', 'Transforma pautas aprovadas em publicacoes acessiveis.', null, 1),
+  ('62000000-0000-4000-8000-000000000003', '61000000-0000-4000-8000-000000000003', '10000000-0000-4000-8000-000000000002', 'Rafael Moura', 'Revisor', 'Acompanha textos e devolutivas ao longo do fluxo.', null, 1),
+  ('62000000-0000-4000-8000-000000000004', '61000000-0000-4000-8000-000000000004', '10000000-0000-4000-8000-000000000004', 'Joana Freitas', 'Conexoes', 'Aproxima o jornal de iniciativas da comunidade.', 'conexoes@canarinho.test', 1);
+
+insert into public.recruitment_openings (
+  id, title, slug, summary, description, requirements, process, contact_email,
+  status, applications_enabled, retention_days, published_at, closes_at, created_by
+)
+values (
+  '63000000-0000-4000-8000-000000000001',
+  'Chamada aberta para novos voos', 'chamada-aberta-2026-2',
+  'Participe da producao de jornalismo, arte e ideias da comunidade universitaria.',
+  'Buscamos pessoas para colaborar com revisao, edicao, fotografia e conexoes. Experiencia previa nao e obrigatoria.',
+  'Disponibilidade para encontros quinzenais, compromisso com as diretrizes editoriais e vontade de aprender em equipe.',
+  'As candidaturas passam por leitura da Direcao e uma conversa de acolhimento antes da definicao do eixo de atuacao.',
+  'contato@canarinho.test', 'published', true, 180,
+  '2026-07-22 09:00:00-03', '2026-12-01 23:59:59-03',
+  '10000000-0000-4000-8000-000000000005'
+);

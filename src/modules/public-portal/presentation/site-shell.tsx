@@ -17,9 +17,9 @@ export function SiteHeader() {
           </Link>
           <nav aria-label="Navegação principal">
             <Link href="/materias">Matérias</Link>
-            <Link href="/categorias/cultura">Cultura</Link>
-            <Link href="/categorias/ciencia">Ciência</Link>
-            <Link href="/edicoes/entre-lugares-01">Edições</Link>
+            <Link href="/poemas">Poemas</Link>
+            <Link href="/galeria">Galeria</Link>
+            <Link href="/equipe">Equipe</Link>
             <Link href="/submissoes">Enviar matéria</Link>
           </nav>
           <form className="header-search" action="/busca" role="search">
@@ -49,6 +49,8 @@ export function SiteFooter() {
       <nav aria-label="Navegação do rodapé">
         <Link href="/materias">Todas as matérias</Link>
         <Link href="/busca">Busca</Link>
+        <Link href="/equipe">Equipe</Link>
+        <Link href="/faca-parte">Faça parte</Link>
         <Link href="/submissoes">Minhas submissões</Link>
         <a href="mailto:contato@canarinho.test">Contato</a>
       </nav>

@@ -15,6 +15,157 @@
   --page: min(76rem, calc(100% - 2.5rem));
 }
 
+/* Comunidade, equipe e recrutamento — Etapa 6. */
+.comments-section,
+.organization-page,
+.admin-section {
+  padding: clamp(3rem, 7vw, 7rem) 0;
+}
+.comments-section {
+  border-top: 1px solid var(--line);
+}
+.community-guidelines,
+.comment-form,
+.public-comment,
+.moderation-card,
+.opening-card,
+.team-card {
+  padding: 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.community-guidelines {
+  margin-bottom: 1.5rem;
+  background: var(--green-light);
+}
+.comment-form,
+.application-form,
+.moderation-form,
+.team-member-form {
+  display: grid;
+  gap: 1rem;
+}
+.comment-form textarea,
+.application-form textarea,
+.moderation-form textarea {
+  min-height: 8rem;
+}
+.comment-list,
+.moderation-list {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.public-comment header,
+.moderation-card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.public-comment time,
+.moderation-card time {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.public-comment details {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.public-comment details form {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+.organization-page {
+  min-height: 65vh;
+}
+.team-area {
+  padding: 3rem 0;
+  border-top: 1px solid var(--line);
+}
+.team-area > header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 2rem;
+}
+.team-grid,
+.admin-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+.team-card h3 {
+  margin-top: 0;
+}
+.opening-card {
+  margin-bottom: 2rem;
+  padding: clamp(1.5rem, 5vw, 3rem);
+}
+.opening-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+}
+.application-form {
+  max-width: 42rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+.application-form label,
+.moderation-form label,
+.team-member-form label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 700;
+}
+.checkbox-field {
+  grid-template-columns: auto 1fr !important;
+  align-items: start;
+  font-weight: 400 !important;
+}
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.moderation-form {
+  grid-template-columns: minmax(8rem, 0.5fr) 1fr auto;
+  align-items: end;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.report-list {
+  padding: 0.8rem 1rem;
+  border-left: 4px solid var(--orange);
+  background: var(--paper);
+}
+.admin-section + .admin-section {
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 52rem) {
+  .team-grid,
+  .admin-card-grid,
+  .opening-details,
+  .team-area > header,
+  .moderation-form {
+    grid-template-columns: 1fr;
+  }
+  .public-comment header,
+  .moderation-card header,
+  .public-comment details form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

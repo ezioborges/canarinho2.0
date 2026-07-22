@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
 
+import { CommentSection, FavoriteButton, getContentCommunity } from '@/modules/community';
 import {
   ContentCard,
   contentTypeLabels,
@@ -14,7 +15,14 @@ import {
 } from '@/modules/public-portal';
 import { publicEnvironment } from '@/shared/config/public-environment';
 
-type ContentPageProperties = { params: Promise<{ slug: string }> };
+type ContentPageProperties = {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
+function singleValue(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
 
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
   day: '2-digit',
@@ -57,8 +65,9 @@ export async function generateMetadata({ params }: ContentPageProperties): Promi
   };
 }
 
-export default async function ContentDetailPage({ params }: ContentPageProperties) {
+export default async function ContentDetailPage({ params, searchParams }: ContentPageProperties) {
   const { slug } = await params;
+  const query = (await searchParams) ?? {};
   const content = await getPublishedContent(slug);
 
   if (!content) {
@@ -66,6 +75,13 @@ export default async function ContentDetailPage({ params }: ContentPagePropertie
     if (canonicalSlug) permanentRedirect(`/materias/${canonicalSlug}`);
     notFound();
   }
+
+  const beforeCreatedAt = singleValue(query.comentarios_antes);
+  const beforeId = singleValue(query.comentario_id);
+  const community = await getContentCommunity(
+    content.id,
+    beforeCreatedAt && beforeId ? { createdAt: beforeCreatedAt, id: beforeId } : undefined,
+  );
 
   const category = primaryCategory(content);
   const readingTime = readingTimeInMinutes(content.body);
@@ -120,6 +136,12 @@ export default async function ContentDetailPage({ params }: ContentPagePropertie
               {readingTime} min de leitura
             </p>
           </div>
+          <FavoriteButton
+            contentId={content.id}
+            slug={content.slug}
+            favorite={community.favorite}
+            authenticated={community.authenticated}
+          />
         </header>
 
         <figure className="article-cover">
@@ -196,6 +218,13 @@ export default async function ContentDetailPage({ params }: ContentPagePropertie
           </div>
         </section>
       )}
+      <CommentSection
+        contentId={content.id}
+        slug={content.slug}
+        community={community}
+        message={singleValue(query.sucesso)}
+        error={singleValue(query.erro)}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
