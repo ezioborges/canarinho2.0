@@ -43,6 +43,25 @@ export default async function SubmissionDetailPage({ params, searchParams }: Pag
           </Link>
         ) : null}
       </header>
+      {submission.comments.length ? (
+        <section className="workflow-panel" aria-labelledby="comentarios-editoriais-titulo">
+          <h2 id="comentarios-editoriais-titulo">Comentários da revisão</h2>
+          <ol className="comment-list">
+            {submission.comments.map((comment) => (
+              <li key={comment.id}>
+                <strong>Equipe editorial</strong>
+                <time dateTime={comment.created_at}>
+                  {new Intl.DateTimeFormat('pt-BR', {
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                  }).format(new Date(comment.created_at))}
+                </time>
+                <p>{comment.body}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
       <section className="history-panel" aria-labelledby="historico-titulo">
         <h2 id="historico-titulo">Histórico editorial</h2>
         {submission.history.length ? (

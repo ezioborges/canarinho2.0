@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { publicEnvironment } from '@/shared/config/public-environment';
 
-const protectedPrefixes = ['/conta', '/submissoes'];
+const protectedPrefixes = ['/conta', '/submissoes', '/admin'];
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });

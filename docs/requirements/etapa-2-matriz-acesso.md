@@ -17,19 +17,23 @@ submetente ou perfil relacionado em `content_authors`. Toda operação não list
 
 ## Conteúdo editorial
 
-| Recurso/operação                  | Visitante | Leitor     | Revisor                        | Editor                  | Conexões            | Diretor      |
-| --------------------------------- | --------- | ---------- | ------------------------------ | ----------------------- | ------------------- | ------------ |
-| Conteúdo público `published`      | ler       | ler        | ler                            | ler                     | ler                 | ler          |
-| Próprio `draft/changes_requested` | —         | ler/editar | ler/editar se autor            | ler/editar se autor     | ler/editar se autor | ler/editar   |
-| Próprio em demais estados         | —         | ler        | ler                            | ler                     | ler                 | ler          |
-| Fila de revisão                   | —         | —          | ler                            | —                       | —                   | ler          |
-| Fila de edição                    | —         | —          | —                              | ler/editar conteúdo     | —                   | ler/editar   |
-| Alterar status diretamente        | —         | —          | —                              | —                       | —                   | —            |
-| Assumir/atribuir revisão          | —         | —          | RPC                            | —                       | —                   | RPC          |
-| Aprovar/rejeitar/pedir ajustes    | —         | —          | RPC se responsável e não autor | —                       | —                   | RPC          |
-| Editar/agendar/publicar/arquivar  | —         | —          | —                              | RPC nos estados válidos | —                   | RPC          |
-| Exceção de publicação             | —         | —          | —                              | —                       | —                   | RPC auditada |
-| Versões e histórico               | —         | próprios   | fila permitida                 | fila permitida          | próprios            | todos        |
+| Recurso/operação                  | Visitante | Leitor      | Revisor                        | Editor                  | Conexões            | Diretor      |
+| --------------------------------- | --------- | ----------- | ------------------------------ | ----------------------- | ------------------- | ------------ |
+| Conteúdo público `published`      | ler       | ler         | ler                            | ler                     | ler                 | ler          |
+| Próprio `draft/changes_requested` | —         | ler/editar  | ler/editar se autor            | ler/editar se autor     | ler/editar se autor | ler/editar   |
+| Próprio em demais estados         | —         | ler         | ler                            | ler                     | ler                 | ler          |
+| Fila de revisão                   | —         | —           | ler                            | —                       | —                   | ler          |
+| Fila de edição                    | —         | —           | —                              | ler/editar conteúdo     | —                   | ler/editar   |
+| Alterar status diretamente        | —         | —           | —                              | —                       | —                   | —            |
+| Assumir/atribuir revisão          | —         | —           | RPC                            | —                       | —                   | RPC          |
+| Aprovar/rejeitar/pedir ajustes    | —         | —           | RPC se responsável e não autor | —                       | —                   | RPC          |
+| Editar/agendar/publicar/arquivar  | —         | —           | —                              | RPC nos estados válidos | —                   | RPC          |
+| Exceção de publicação             | —         | —           | —                              | —                       | —                   | RPC auditada |
+| Versões e histórico               | —         | próprios    | fila permitida                 | fila permitida          | próprios            | todos        |
+| Comentário editorial por versão   | —         | ler próprio | RPC se responsável             | ler na fila             | —                   | RPC/ler      |
+| Restaurar versão                  | —         | —           | —                              | RPC em `in_editing`     | —                   | RPC          |
+| Trocar destaque principal         | —         | —           | —                              | RPC atômica             | —                   | RPC atômica  |
+| Executar job de agendamento       | —         | —           | —                              | —                       | —                   | —            |
 
 ## Taxonomia, edições e Storage
 
@@ -45,25 +49,29 @@ submetente ou perfil relacionado em `content_authors`. Toda operação não list
 
 ## Justificativa por tabela exposta
 
-| Tabela                     | Leitura concedida                                | Escrita concedida/justificativa                      |
-| -------------------------- | ------------------------------------------------ | ---------------------------------------------------- |
-| `profiles`                 | próprio, equipe editorial e autor público        | apenas campos básicos do próprio perfil              |
-| `roles`                    | catálogo para autenticados                       | somente migration                                    |
-| `user_roles`               | próprios ou todos para Diretor                   | somente RPC auditada de Diretor                      |
-| `categories`               | ativas; arquivadas para Editor/Diretor           | Editor/Diretor; exclusão direta negada               |
-| `tags`                     | ativas; arquivadas para Editor/Diretor           | Editor/Diretor; exclusão direta negada               |
-| `editions`                 | publicadas ou todas para Editor/Diretor          | Editor/Diretor                                       |
-| `media_assets`             | público, proprietário ou equipe editorial        | proprietário no privado; Editor/Diretor no público   |
-| `content_items`            | público, próprio ou fila correspondente ao papel | campos editoriais nos estados permitidos; sem status |
-| `content_authors`          | acompanha a visibilidade do conteúdo             | quem pode editar o agregado                          |
-| `content_categories`       | acompanha a visibilidade do conteúdo             | quem pode editar o agregado                          |
-| `content_tags`             | acompanha a visibilidade do conteúdo             | quem pode editar o agregado                          |
-| `edition_items`            | edição e conteúdo precisam ser visíveis          | Editor/Diretor                                       |
-| `content_slug_redirects`   | somente se o destino for visível                 | somente comando privilegiado futuro                  |
-| `content_versions`         | quem pode ler o conteúdo, nunca Visitante        | somente comando transacional; append-only            |
-| `editorial_status_history` | quem pode ler o conteúdo, nunca Visitante        | somente comando transacional; append-only            |
-| `audit_logs`               | somente Diretor                                  | somente helpers protegidos; append-only              |
-| `outbox_events`            | somente Diretor nesta fase                       | somente comandos protegidos/processador futuro       |
+| Tabela                     | Leitura concedida                                | Escrita concedida/justificativa                    |
+| -------------------------- | ------------------------------------------------ | -------------------------------------------------- |
+| `profiles`                 | próprio, equipe editorial e autor público        | apenas campos básicos do próprio perfil            |
+| `roles`                    | catálogo para autenticados                       | somente migration                                  |
+| `user_roles`               | próprios ou todos para Diretor                   | somente RPC auditada de Diretor                    |
+| `categories`               | ativas; arquivadas para Editor/Diretor           | Editor/Diretor; exclusão direta negada             |
+| `tags`                     | ativas; arquivadas para Editor/Diretor           | Editor/Diretor; exclusão direta negada             |
+| `editions`                 | publicadas ou todas para Editor/Diretor          | Editor/Diretor                                     |
+| `media_assets`             | público, proprietário ou equipe editorial        | proprietário no privado; Editor/Diretor no público |
+| `content_items`            | público, próprio ou fila correspondente ao papel | somente comandos transacionais versionados         |
+| `content_authors`          | acompanha a visibilidade do conteúdo             | somente comandos do agregado                       |
+| `content_categories`       | acompanha a visibilidade do conteúdo             | somente comandos do agregado                       |
+| `content_tags`             | acompanha a visibilidade do conteúdo             | somente comandos do agregado                       |
+| `edition_items`            | edição e conteúdo precisam ser visíveis          | Editor/Diretor                                     |
+| `content_slug_redirects`   | somente se o destino for visível                 | somente comando privilegiado futuro                |
+| `content_versions`         | quem pode ler o conteúdo, nunca Visitante        | somente comando transacional; append-only          |
+| `editorial_status_history` | quem pode ler o conteúdo, nunca Visitante        | somente comando transacional; append-only          |
+| `audit_logs`               | somente Diretor                                  | somente helpers protegidos; append-only            |
+| `outbox_events`            | somente Diretor nesta fase                       | somente comandos protegidos/processador futuro     |
+| `editorial_comments`       | quem pode ler o conteúdo, nunca Visitante        | somente RPC de Revisor responsável/Diretor         |
+
+O job de agendamento não representa um papel humano: a API concede execução somente a
+`service_role`, e histórico/versão registram `actor_kind = system`.
 
 ## Negativas automatizadas
 

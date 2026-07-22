@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEditor, EditorContent, type JSONContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import { StarterKit } from '@tiptap/starter-kit';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -118,7 +118,7 @@ export function SubmissionEditor({
   const [formError, setFormError] = useState<string | null>(null);
   const [assets, setAssets] = useState(initialSubmission?.assets ?? []);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const savingRef = useRef(false);
+  const inFlightSaveRef = useRef<Promise<number | null> | null>(null);
   const revisionRef = useRef(0);
   const savedRevisionRef = useRef(0);
   const storageKey = `canarinho:draft:${contentId}`;
@@ -149,59 +149,78 @@ export function SubmissionEditor({
   const authors = useFieldArray({ control: form.control, name: 'authors' });
 
   const saveDraft = async (): Promise<number | null> => {
-    if (!editable || savingRef.current) return form.getValues('lockVersion');
-    const revision = revisionRef.current;
-    const candidate = {
-      ...form.getValues(),
-      idempotencyKey: crypto.randomUUID(),
-    };
-    const parsed = draftInputSchema.safeParse(candidate);
-    if (!parsed.success) {
-      if (candidate.title.trim().length > 0) setSaveState('error');
-      return null;
+    if (!editable) return form.getValues('lockVersion');
+    if (inFlightSaveRef.current) {
+      const savedLock = await inFlightSaveRef.current;
+      return savedLock !== null && revisionRef.current > savedRevisionRef.current
+        ? saveDraft()
+        : savedLock;
     }
-    savingRef.current = true;
-    setSaveState('saving');
-    try {
-      const response = await fetch('/api/submissoes/rascunhos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(parsed.data),
-      });
-      if (response.status === 409) {
-        setFormError('Este rascunho foi alterado em outra aba. Recarregue antes de continuar.');
-        setSaveState('error');
+
+    const operation = (async () => {
+      const revision = revisionRef.current;
+      const candidate = {
+        ...form.getValues(),
+        idempotencyKey: crypto.randomUUID(),
+      };
+      const parsed = draftInputSchema.safeParse(candidate);
+      if (!parsed.success) {
+        if (candidate.title.trim().length > 0) setSaveState('error');
         return null;
       }
-      if (!response.ok) throw new Error('draft_save_failed');
-      const result = (await response.json()) as { lock_version: number };
-      form.setValue('lockVersion', result.lock_version, { shouldDirty: false });
-      form.setValue('idempotencyKey', crypto.randomUUID(), { shouldDirty: false });
-      savedRevisionRef.current = revision;
-      localStorage.removeItem(storageKey);
-      setSaveState('saved');
-      if (!initialSubmission) {
-        window.history.replaceState(window.history.state, '', `/submissoes/${contentId}/editar`);
+      setSaveState('saving');
+      try {
+        const response = await fetch('/api/submissoes/rascunhos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(parsed.data),
+        });
+        if (response.status === 409) {
+          setFormError('Este rascunho foi alterado em outra aba. Recarregue antes de continuar.');
+          setSaveState('error');
+          return null;
+        }
+        if (!response.ok) throw new Error('draft_save_failed');
+        const result = (await response.json()) as { lock_version: number };
+        form.setValue('lockVersion', result.lock_version, { shouldDirty: false });
+        form.setValue('idempotencyKey', crypto.randomUUID(), { shouldDirty: false });
+        savedRevisionRef.current = revision;
+        localStorage.removeItem(storageKey);
+        setSaveState('saved');
+        if (!initialSubmission) {
+          window.history.replaceState(window.history.state, '', `/submissoes/${contentId}/editar`);
+        }
+        return result.lock_version;
+      } catch {
+        localStorage.setItem(
+          storageKey,
+          JSON.stringify({ ...candidate, savedLocallyAt: new Date().toISOString() }),
+        );
+        setSaveState(navigator.onLine ? 'error' : 'local');
+        return null;
+      } finally {
+        if (revisionRef.current > savedRevisionRef.current && revisionRef.current !== revision) {
+          setSaveState('pending');
+        }
       }
-      return result.lock_version;
-    } catch {
-      localStorage.setItem(
-        storageKey,
-        JSON.stringify({ ...candidate, savedLocallyAt: new Date().toISOString() }),
-      );
-      setSaveState(navigator.onLine ? 'error' : 'local');
-      return null;
+    })();
+    inFlightSaveRef.current = operation;
+    let savedLock: number | null;
+    try {
+      savedLock = await operation;
     } finally {
-      savingRef.current = false;
-      if (revisionRef.current > savedRevisionRef.current && revisionRef.current !== revision) {
-        setSaveState('pending');
-      }
+      if (inFlightSaveRef.current === operation) inFlightSaveRef.current = null;
     }
+    return savedLock !== null && revisionRef.current > savedRevisionRef.current
+      ? saveDraft()
+      : savedLock;
   };
   const saveRef = useRef(saveDraft);
   saveRef.current = saveDraft;
 
   useEffect(() => {
+    // React Hook Form fornece uma assinatura imperativa; ela fica isolada neste efeito.
+    // eslint-disable-next-line react-hooks/incompatible-library
     const subscription = form.watch((_values, info) => {
       if (!info.name || info.name === 'lockVersion' || info.name === 'idempotencyKey') return;
       revisionRef.current += 1;

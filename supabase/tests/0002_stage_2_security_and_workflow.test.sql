@@ -166,19 +166,18 @@ select is(
 select is((select count(*) from public.user_roles), 1::bigint, 'leitor ve somente os proprios papeis');
 select is((select count(*) from public.audit_logs), 0::bigint, 'leitor nao le auditoria');
 select is((select count(*) from public.outbox_events), 0::bigint, 'leitor nao le fila interna');
-select results_eq(
+select throws_ok(
   $$update public.content_items
-    set title = 'Rascunho atualizado'
-    where id = '30000000-0000-4000-8000-000000000001'
-    returning 1$$,
-  $$values (1)$$,
-  'autor edita o proprio rascunho'
+    set title = 'Rascunho atualizado diretamente'
+    where id = '30000000-0000-4000-8000-000000000001'$$,
+  '42501', null,
+  'apos a etapa 5 autor salva o rascunho somente pelo comando transacional'
 );
-select is_empty(
+select throws_ok(
   $$update public.content_items
     set title = 'Tentativa indevida'
-    where id = '30000000-0000-4000-8000-000000000002'
-    returning 1$$,
+    where id = '30000000-0000-4000-8000-000000000002'$$,
+  '42501', null,
   'autor nao edita conteudo em revisao'
 );
 select throws_ok(
@@ -210,11 +209,11 @@ select is(
   1::bigint,
   'Conexoes le apenas o publicado'
 );
-select is_empty(
+select throws_ok(
   $$update public.content_items
     set title = 'Tentativa de Conexoes'
-    where id = '30000000-0000-4000-8000-000000000004'
-    returning 1$$,
+    where id = '30000000-0000-4000-8000-000000000004'$$,
+  '42501', null,
   'Conexoes nao edita materia editorial'
 );
 
@@ -323,11 +322,14 @@ insert into public.media_assets (
   'Assembleia estudantil no campus'
 );
 
+reset role;
 update public.content_items
 set cover_asset_id = '40000000-0000-4000-8000-000000000001',
     seo_title = 'Submissao do leitor',
     seo_description = 'Uma descricao editorial valida para publicacao.'
 where id = '30000000-0000-4000-8000-000000000002';
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000003', true);
 
 select is(
   public.transition_editorial_content(
@@ -354,11 +356,11 @@ select is(
   4::bigint,
   'atribuicao, aprovacao, edicao e publicacao geram historico'
 );
-select is_empty(
+select throws_ok(
   $$update public.content_items
     set title = 'Alteracao direta pos-publicacao'
-    where id = '30000000-0000-4000-8000-000000000002'
-    returning 1$$,
+    where id = '30000000-0000-4000-8000-000000000002'$$,
+  '42501', null,
   'nem Diretor contorna versionamento ao editar publicacao diretamente'
 );
 select lives_ok(
